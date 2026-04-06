@@ -8,18 +8,20 @@ public class ConexionBD {
 
     private static final String URL = "jdbc:mysql://localhost:3306/larukita_hotel";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = ""; // coloca tu contraseña si tienes
 
-    public static Connection conectar() {
-        Connection conexion = null;
-
+    public static Connection getConnection() throws SQLException {
         try {
-            conexion = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexion exitosa a la base de datos.");
-        } catch (SQLException e) {
-            System.out.println("Error al conectar con la base de datos: " + e.getMessage());
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-        return conexion;
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    // Para compatibilidad con tu DAO
+    public static Connection conectar() throws SQLException {
+        return getConnection();
     }
 }
